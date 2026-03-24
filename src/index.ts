@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config({ path: ".env.local" });
-dotenv.config(); // fallback to .env
+dotenv.config();
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 import plateRoutes from "./routes/plate.js";
