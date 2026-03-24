@@ -1,4 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config({ path: ".env.local" });
+dotenv.config(); // fallback to .env
 import { Hono } from "hono";
+import { serve } from "@hono/node-server";
 import plateRoutes from "./routes/plate.js";
 import reportRoutes from "./routes/report.js";
 import reportCategoryRoutes from "./routes/report-category.js";
@@ -16,3 +20,11 @@ app.route("/vehicle-type", vehicleTypeRoutes);
 export const config = { runtime: "nodejs" };
 
 export default app;
+
+// Start local server when not running in Vercel
+if (!process.env.VERCEL) {
+  const port = Number(process.env.PORT) || 3000;
+  serve({ fetch: app.fetch, port }, () => {
+    console.log(`Juvo API running at http://localhost:${port}`);
+  });
+}
